@@ -4,10 +4,41 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Signup from './components/Signup';
+import CreateWallet from './components/CreateWallet';
+import ListWallet from './components/ListWallet';
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App/>,
+    children:[
+      {
+        path:"signup",
+        element:<Signup/>
+      },
+      {
+        path:"createwallet",
+        element:<CreateWallet/>
+      },
+      {
+        path:"listwallet",
+        element:<ListWallet/>
+      }
+
+    ]
+  },
+]);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+      <RouterProvider router={router} />
   </React.StrictMode>
 );
 
