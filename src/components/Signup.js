@@ -43,6 +43,9 @@ const handleClick=()=>{
             userId:""
         })
 
+        // save the userId in the localstorage
+        localStorage.setItem("userId",state.userId);
+
     }).catch(err=>{
       console.log(err);
         setSnackBar({
@@ -62,6 +65,10 @@ const handleClick=()=>{
         autoHideDuration={6000}
         onClose={handleClose}
         message={snackbar.message}
+        anchorOrigin={{
+            vertical: "top",
+            horizontal: "center"
+         }}
       
       />
     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>

@@ -5,6 +5,10 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 
 const Api="http://localhost:9090"
@@ -24,6 +28,8 @@ const CreateWallet = () => {
             message:""
         });
     };
+
+    const [address,setAddress]=useState();
   
 
 const handleChange=(event)=>{
@@ -32,7 +38,8 @@ const handleChange=(event)=>{
 }
 
 const handleClick=()=>{
-    axios.post(`${Api}/api/wallet/create`,state).then(result=>{
+    let userId=localStorage.getItem("userId")
+    axios.post(`${Api}/api/wallet/create`,{...state,userId}).then(result=>{
         console.log(result.data)
         setSnackBar({
             open:true,
@@ -43,11 +50,37 @@ const handleClick=()=>{
             wallet_name:""
         })
 
+        setAddress(undefined);
+
     }).catch(err=>{
       console.log(err);
         setSnackBar({
             open:true,
-            message:"Error Creating User"
+            message:err.response.data.error
+        })
+    })
+
+}
+
+const getAddress=()=>{
+
+    axios.post(`${Api}/api/address/create`).then(result=>{
+        console.log(result.data)
+        setSnackBar({
+            open:true,
+            message:"Address Fetched"
+        })
+        setAddress({
+            message:result.data.address
+            ,
+           
+        })
+
+    }).catch(err=>{
+      console.log(err);
+        setSnackBar({
+            open:true,
+            message:err.response.data.error
         })
     })
 
@@ -59,9 +92,13 @@ const handleClick=()=>{
 
 <Snackbar
         open={snackbar.open}
-        autoHideDuration={6000}
+        autoHideDuration={2000}
         onClose={handleClose}
         message={snackbar.message}
+        anchorOrigin={{
+            vertical: "top",
+            horizontal: "center"
+         }}
       
       />
     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -72,8 +109,24 @@ const handleClick=()=>{
     <TextField id="outlined-basic" label="Wallet Name" variant="outlined" value={state.wallet_name} onChange={handleChange}  name='wallet_name' fullWidth style={{marginTop:"20px"}} />
 
     <Button variant="contained" onClick={handleClick} style={{marginTop:"20px"}} fullWidth>Create</Button>
+    <Button variant="outlined" style={{marginTop:"20px"}} onClick={getAddress}>Get A Dummy Btc Address </Button>
+        
+        {
+            address?<Card sx={{ minWidth: 275 }} style={{marginTop:"20px"}} >
+            <CardContent >
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+               {address.message}
+              </Typography>
+            </CardContent>
+            
+          </Card>:""
+        }
+        
+        
+        
         </Grid>
         
+      
     
     </Grid>
   </Box>

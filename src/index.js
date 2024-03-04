@@ -11,6 +11,9 @@ import {
 import Signup from './components/Signup';
 import CreateWallet from './components/CreateWallet';
 import ListWallet from './components/ListWallet';
+import PrivateRoute from './components/common/PrivateRoute';
+import WalletComponent from './components/WalletComponent';
+import SendBitcoinComponent from './components/SendBitCoinComponent';
 
 
 const router = createBrowserRouter([
@@ -24,11 +27,32 @@ const router = createBrowserRouter([
       },
       {
         path:"createwallet",
-        element:<CreateWallet/>
+        element:<PrivateRoute>
+            <CreateWallet/>
+        </PrivateRoute>
+     
       },
       {
         path:"listwallet",
-        element:<ListWallet/>
+        element:<PrivateRoute>
+   <ListWallet/>
+        </PrivateRoute>
+     
+      },
+
+      {
+        path:"wallet/:walletName",
+        element:<PrivateRoute>
+   <WalletComponent/>
+        </PrivateRoute>
+     
+      },
+      {
+        path:"sendbitcoin",
+        element:
+   <SendBitcoinComponent/>
+       
+     
       }
 
     ]

@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['Signup', 'ListWallet', 'CreateWallet'];
+const pages = ['signup', 'listwallet', 'createwallet','sendbitcoin'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
